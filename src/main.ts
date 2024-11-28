@@ -16,13 +16,16 @@ async function bootstrap() {
 
   //swagger configuration
   const config = new DocumentBuilder()
-  .setTitle('Master Classs- blog app ApI')
-  .setDescription('Use the base API URL as http://localhost:3050/api')
-  .setTermsOfService('http://localhost:3050/terms-of-service')
-  .setLicense('MIT License','https://github.com/git/git-scm.com/blob/main/MIT-LICENCE.txt')
-  .addServer('http://localhost:3050')
-  .setVersion('1.0')
-  .build();
+    .setTitle('Master Classs- blog app ApI')
+    .setDescription('Use the base API URL as http://localhost:3050/api')
+    .setTermsOfService('http://localhost:3050/terms-of-service')
+    .setLicense(
+      'MIT License',
+      'https://github.com/git/git-scm.com/blob/main/MIT-LICENCE.txt',
+    )
+    .addServer('http://localhost:3050')
+    .setVersion('1.0')
+    .build();
 
   //insatancia de documento
   const document = SwaggerModule.createDocument(app, config);

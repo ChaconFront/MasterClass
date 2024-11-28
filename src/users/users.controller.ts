@@ -15,7 +15,6 @@ import { PatchUserDto } from './dto/patch-user.dto';
 //import { Request } from 'express';
 import { UserService } from './providers/users.service';
 
-
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UserService) {}

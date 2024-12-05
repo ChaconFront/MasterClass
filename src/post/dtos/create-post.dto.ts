@@ -15,7 +15,12 @@ import { PostType } from '../enums/post-type.enum';
 import { PostStatus } from '../enums/postStatus.enum';
 import { MetaOptionsDto } from './create-post-metaOptions.dto';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 export class CreatePostDto {
+  @ApiProperty({
+    example: 'this is a title',
+    description: 'this is post',
+  })
   @IsString()
   @MinLength(4)
   @IsNotEmpty()

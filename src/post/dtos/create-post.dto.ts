@@ -8,6 +8,7 @@ import {
   IsString,
   IsUrl,
   Matches,
+  MaxLength,
   MinLength,
   ValidateNested,
 } from 'class-validator';
@@ -23,6 +24,7 @@ export class CreatePostDto {
   })
   @IsString()
   @MinLength(4)
+  @MaxLength(512)
   @IsNotEmpty()
   title: string;
 
@@ -35,6 +37,7 @@ export class CreatePostDto {
   @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
     message: 'A slug should be all samll letter and uses only',
   })
+  @MaxLength(256)
   slug: string;
 
   @IsEnum(PostStatus)
@@ -51,6 +54,7 @@ export class CreatePostDto {
 
   @IsOptional()
   @IsUrl()
+  @MaxLength(1024)
   feactureImageUrl: string;
 
   @IsISO8601()

@@ -16,7 +16,7 @@ import { PostType } from '../enums/post-type.enum';
 import { PostStatus } from '../enums/postStatus.enum';
 import { CreateMetaOptionsDto } from '../../meta-options/dtos/create-post-metaOptions.dto';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export class CreatePostDto {
   @ApiProperty({
     example: 'this is a title',
@@ -67,9 +67,24 @@ export class CreatePostDto {
   @MinLength(3, { each: true })
   tags?: string[];
 
+
+  @ApiPropertyOptional({
+    type:'array',
+    required:false,
+    items:{
+      type:'object',
+      properties:{
+        metavalue:{
+          type:'json',
+          description:'the metavalue is a JSON string',
+          example:'{"SidebarEnable":true}'
+        }
+      }
+    }
+  })
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateMetaOptionsDto)
-  metaOptions: CreateMetaOptionsDto[];
+  metaOptions: CreateMetaOptionsDto | null;
 }

@@ -10,5 +10,6 @@ import { MetaOptions } from 'src/meta-options/meta-options.entity';
   controllers: [PostController],
   providers: [PostService],
   imports: [UsersModule, TypeOrmModule.forFeature([Post,MetaOptions]),],
+  exports:[PostService]
 })
 export class PostModule {}

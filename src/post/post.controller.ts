@@ -21,11 +21,14 @@ export class PostController {
     status: 201,
     description: 'you get a 201 response if your post is create successfully',
   })
+
   @Post()
-  public createPost(@Body('') createPostDto: CreatePostDto) {
-    console.log(createPostDto);
-    return createPostDto;
+  public createPost(@Body() createPostDto: CreatePostDto) {
+  
+    return this.postService.create(createPostDto);
   }
+
+  
 
   @Patch()
   public updatePost(@Body() patchPostDto: PatchPostDto) {

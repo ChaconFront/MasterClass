@@ -20,20 +20,18 @@ export class PostService {
 
 
   public async create(@Body() createPostDto:CreatePostDto){
-  
-    const metaOptions= createPostDto.metaOptions 
+  /*  const metaOptions= createPostDto.metaOptions 
         ? this.metaOptionRepository.create(createPostDto.metaOptions)
         :null
   
       if(metaOptions){
         await this.metaOptionRepository.save(metaOptions)
-      } 
-
+      }  */
     const post=await this.postRepository.create(createPostDto);
-      if(metaOptions){
+   /*    if(metaOptions){
         post.metaOptions=metaOptions;
       } 
-
+ */
       console.log(post)
     return await this.postRepository.save(post);  
 }
@@ -43,8 +41,14 @@ export class PostService {
 
 
 
-  public findAll(userId: string) {
+  public async findAll(userId: string) {
     const user = this.userService.findOneById(userId);
-    return console.log(user);
+    const post = await this.postRepository.find({ //me vas a traer los post inlcuido su relacion con metaOptions
+      relations:{
+        metaOptions:true
+      }
+    })
+    console.log(user);
+    return post
   }
 }

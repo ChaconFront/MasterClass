@@ -32,7 +32,7 @@ export class UserService {
   }
 
 
-  public finAll(
+  public async finAll(
     getUserParamDto: GetUsersParamDto,
     limit: number,
     page: number,
@@ -41,16 +41,7 @@ export class UserService {
     const isAuth = this.authService.isAuth();
     console.log(isAuth);
     console.log(getUserParamDto, limit, page);
-    return [
-      {
-        firstName: 'John',
-        email: 'john@doe.com',
-      },
-      {
-        firstName: 'Alice',
-        email: 'alice@doe.com',
-      },
-    ];
+    return await this.userRepository.find()
   }
 
   public findOneById(id: string) {

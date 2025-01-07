@@ -34,6 +34,7 @@ export class PostService {
         post.metaOptions=metaOptions;
       } 
 
+      console.log(post)
     return await this.postRepository.save(post);  
 }
 

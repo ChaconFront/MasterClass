@@ -64,7 +64,8 @@ export class Post{
     })
     publishOn: Date;
 
-    @OneToOne(()=>MetaOptions,{
+    //relacion bidireccional
+    @OneToOne(()=>MetaOptions,(metaOptions)=>(metaOptions.post),{
         cascade:true, //nos permite eliminar e insertar datos en la en la tabla MetaOptions.
         eager:true,//obtener los meta options a la hora de obtener los post para asi a la hora de hacer consultas eliminar las relaciones.
     })

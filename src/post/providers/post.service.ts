@@ -17,8 +17,6 @@ export class PostService {
   
   ) {}
 
-
-
   public async create(@Body() createPostDto:CreatePostDto){
   /*  const metaOptions= createPostDto.metaOptions 
         ? this.metaOptionRepository.create(createPostDto.metaOptions)
@@ -36,11 +34,6 @@ export class PostService {
     return await this.postRepository.save(post);  
 }
 
-
-
-
-
-
   public async findAll(userId: string) {
     const user = this.userService.findOneById(userId);
     const post = await this.postRepository.find({ //me vas a traer los post inlcuido su relacion con metaOptions
@@ -51,4 +44,20 @@ export class PostService {
     console.log(user);
     return post
   }
+
+
+  public async delete(id:number){
+    //find the post 
+    const post = await this.postRepository.findOneBy({id});
+    console.log(post.metaOptions)
+    //delete and post 
+    await this.postRepository.delete(id)
+    //delete metaOptions
+     await this.metaOptionRepository.delete(post.metaOptions.id)
+
+    //confirmation
+    return {delete:true, id}
+  }
+
+
 }

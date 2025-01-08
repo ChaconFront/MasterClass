@@ -65,8 +65,8 @@ export class Post{
     publishOn: Date;
 
     @OneToOne(()=>MetaOptions,{
-        cascade:['remove','insert'], //nos permite eliminar e insertar datos en la en la tabla MetaOptions.
-        
+        cascade:true, //nos permite eliminar e insertar datos en la en la tabla MetaOptions.
+        eager:true,//obtener los meta options a la hora de obtener los post para asi a la hora de hacer consultas eliminar las relaciones.
     })
     @JoinColumn()
     metaOptions: MetaOptions;

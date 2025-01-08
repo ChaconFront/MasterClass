@@ -32,14 +32,14 @@ export class Tags{
     
     @Column({
         type:'text',
-        nullable:false
+        nullable:true
     })
     schema?:string;
 
     @Column({
         type:'varchar',
         length:1024,
-        nullable:false
+        nullable:true
     })
     feacturedImageUrl?:string;
 

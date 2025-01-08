@@ -64,9 +64,8 @@ export class CreatePostDto {
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true })
-  @MinLength(3, { each: true })
-  tags?: string[];
+  @IsInt({ each: true })
+  tags?: number[];
 
 
   @ApiPropertyOptional({

@@ -18,30 +18,25 @@ export class PostService {
   ) {}
 
   public async create(@Body() createPostDto:CreatePostDto){
-  /*  const metaOptions= createPostDto.metaOptions 
-        ? this.metaOptionRepository.create(createPostDto.metaOptions)
-        :null
-  
-      if(metaOptions){
-        await this.metaOptionRepository.save(metaOptions)
-      }  */
-    const post=await this.postRepository.create(createPostDto);
-   /*    if(metaOptions){
-        post.metaOptions=metaOptions;
-      } 
- */
-      console.log(post)
+  //find author from database 
+    const author= await this.userService.findOneById(createPostDto.authorId)
+
+    const post= this.postRepository.create({...createPostDto,author:author});
+   
     return await this.postRepository.save(post);  
 }
 
+
+
   public async findAll(userId: string) {
-    const user = this.userService.findOneById(userId);
     const post = await this.postRepository.find({ //me vas a traer los post inlcuido su relacion con metaOptions
       relations:{
-        metaOptions:true
+        metaOptions:true,
+        //  author:true,
+
       }
     })
-    console.log(user);
+
     return post
   }
 
@@ -49,18 +44,16 @@ export class PostService {
   public async delete(id:number){
     //find the post 
     const post = await this.postRepository.findOneBy({id});
-   /*  
-    //delete and post 
-    await this.postRepository.delete(id)
+      if(post) await this.postRepository.delete(id)
     //delete metaOptions
-     await this.metaOptionRepository.delete(post.metaOptions.id) */
-    const inversePost= await this.metaOptionRepository.find({
+    // await this.metaOptionRepository.delete(post.metaOptions.id) 
+    /* const inversePost= await this.metaOptionRepository.find({
       where:{id:post.metaOptions.id},
       relations:{
         post:true,
       }
     })
-    console.log(inversePost)
+    console.log(inversePost) */
     //confirmation
     return {delete:true, id}
   }

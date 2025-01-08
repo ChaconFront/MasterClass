@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Post } from "src/post/post.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User{
@@ -34,6 +35,10 @@ email:string;
     nullable:false
 })
 password:string;
+
+//relacion bidireccional
+@OneToMany(()=>Post,(post) => post.author)
+post:Post[];
 
 
 }

@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { PostType } from "./enums/post-type.enum";
 import { PostStatus } from "./enums/postStatus.enum";
 import { MetaOptions } from "src/meta-options/meta-options.entity";
+import { User } from "src/users/user.entity";
 
 @Entity()
 export class Post{
@@ -69,8 +70,12 @@ export class Post{
         cascade:true, //nos permite eliminar e insertar datos en la en la tabla MetaOptions.
         eager:true,//obtener los meta options a la hora de obtener los post para asi a la hora de hacer consultas eliminar las relaciones.
     })
-    @JoinColumn()
     metaOptions: MetaOptions;
+
+    @ManyToOne(()=>User, (user) => user.post,{
+        eager:true
+    })
+    author:User;
 
     tags?: string[];
     

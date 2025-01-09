@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Post } from "src/post/post.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Tags{
@@ -42,6 +43,11 @@ export class Tags{
         nullable:true
     })
     feacturedImageUrl?:string;
+
+    @ManyToMany(()=>Post, (post)=>post.tags,{
+        onDelete:'CASCADE'
+    })
+    post:Post[];
 
     @CreateDateColumn()
     createDate:Date;

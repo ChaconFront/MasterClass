@@ -21,11 +21,31 @@ constructor(
     /* utiliza el operador In de TypeORM,
      que permite buscar registros cuyos IDs se encuentren dentro del array tags. */
     public async findMultipleTags(tags:number[]){
-
         const result = await this.tagRepository.find({
          where:{id:In(tags),}   
         })
-        return result
+        return result;
     }
     
+    public async delete(id:number){
+
+        await this.tagRepository.delete(id)
+
+        return {
+            delete: true,
+            id,
+        }
+
+    }
+
+    public async softRemove(id:number){
+        await this.tagRepository.softDelete(id);
+        return {
+            delete: true,
+            id,
+        }
+
+    }
+
+
 }

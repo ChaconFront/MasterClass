@@ -79,7 +79,9 @@ export class Post{
     author:User;
 
 
-    @ManyToMany(()=>Tags)
+    @ManyToMany(()=>Tags,(tags)=>tags.post,{
+        eager:true
+    })
     @JoinTable()
     tags?: Tags[];
     

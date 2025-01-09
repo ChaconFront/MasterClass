@@ -8,5 +8,5 @@ export class PatchPostDto extends PartialType(CreatePostDto) {
   })
   @IsInt()
   @IsNotEmpty()
-  id: string;
+  id: number;
 }

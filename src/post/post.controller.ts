@@ -30,7 +30,7 @@ export class PostController {
 
   @Patch()
   public updatePost(@Body() patchPostDto: PatchPostDto) {
-    console.log(patchPostDto);
+    return this.postService.update(patchPostDto)
   }
 
   @Delete()

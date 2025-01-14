@@ -11,12 +11,13 @@ import { User } from './users/user.entity';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import {appConfig} from './config/app.config'
 @Module({
   imports: [UsersModule, PostModule, AuthModule,
     ConfigModule.forRoot({
       isGlobal:true,
       envFilePath:['.env'],
+      load:[],//aqui se leee el appConfig.
     }),
     TypeOrmModule.forRootAsync({
       imports:[ConfigModule],

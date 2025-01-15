@@ -11,13 +11,14 @@ import { User } from './users/user.entity';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {appConfig} from './config/app.config'
+import appConfig from './config/app.config';
+import  databaseConfig from './config/database.config'
 @Module({
   imports: [UsersModule, PostModule, AuthModule,
     ConfigModule.forRoot({
       isGlobal:true,
       envFilePath:['.env'],
-      load:[],//aqui se leee el appConfig.
+      load:[appConfig,databaseConfig],//aqui se leee el appConfig y databaseConfig
     }),
     TypeOrmModule.forRootAsync({
       imports:[ConfigModule],
@@ -25,13 +26,13 @@ import {appConfig} from './config/app.config'
       useFactory: (configService:ConfigService) => ({
         type: 'postgres',
         //entities:[User],
-        autoLoadEntities:true,//no usar en produccion.
-        synchronize:true,
-        port:configService.get<number>('DATABASE_PORT'),
-        username:configService.get<string>('DATABASE_USER'),
-        password:configService.get<string>('DATABASE_PASSWORD'),
-        host: configService.get<string>('DATABASE_HOST'),
-        database: configService.get<string>('DATABASE_NAME'),
+        autoLoadEntities:configService.get<boolean>('database.autoLoadEntities'),//no usar en produccion.
+        synchronize:configService.get<boolean>('database.synchronize'),
+        port:configService.get<number>('database.port'),
+        username:configService.get<string>('database.user'),
+        password:configService.get<string>('database.password'),
+        host: configService.get<string>('database.host'),
+        database: configService.get<string>('database.name'),
 
       })
     

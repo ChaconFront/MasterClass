@@ -5,7 +5,8 @@ import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { ConfigService } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
+import profileConfig from '../config/profile.config';
 
 @Injectable()
 export class UserService {
@@ -16,7 +17,9 @@ export class UserService {
     @InjectRepository(User)
     private userRepository:Repository<User>,
 
-    private configService: ConfigService,
+    @Inject(profileConfig.KEY)
+    private readonly profileConfiguration:ConfigType<typeof profileConfig>
+
   ) {}
 
 
@@ -42,9 +45,9 @@ export class UserService {
   ) {
     //verificando si esta autenticado.
     const isAuth = this.authService.isAuth();
-  
-    const environment = this.configService.get<string>('S3_BUCKET');
-    console.log(environment)
+    //test the new config
+    console.log(this.profileConfiguration.apikey)
+
     return await this.userRepository.find()
   }
 

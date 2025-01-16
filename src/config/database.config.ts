@@ -8,4 +8,5 @@ export default registerAs('database',()=>({
     name: parseInt(process.env.DATABASE_NAME),
     synchronize: process.env.DATABASE_SINC === 'true' ? true : false,
     autoLoadEntities: process.env.DATABASE_AUTOLOAD === 'true' ? true : false,
+   // type: process.env.TYPE || 'postgres'
 }))

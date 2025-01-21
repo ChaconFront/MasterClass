@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { BadRequestException, Body, Injectable, RequestTimeoutException } from '@nestjs/common';
 import { UserService } from 'src/users/providers/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,10 +23,14 @@ export class PostService {
 
   public async create(@Body() createPostDto:CreatePostDto){
   //find author from database
-    const author= await this.userService.findOneById(createPostDto.authorId)
+    const authorr= await this.userService.findOneById(createPostDto.authorId)
   //find tags from database
     const tags= await this.tagsService.findMultipleTags(createPostDto.tags)
-    const post= this.postRepository.create({...createPostDto,author:author,tags:tags});
+    const post= this.postRepository.create({
+      ...createPostDto,
+      tags:tags, 
+      //author:authorr
+    });
    
     return await this.postRepository.save(post);  
 }
@@ -48,13 +52,29 @@ export class PostService {
   }
 
   public async update(patchPostDto:PatchPostDto){
-    //find tags
-    const tags= await this.tagsService.findMultipleTags(patchPostDto.tags);
-    //find the post
-    const post = await this.postRepository.findOneBy({
-        id: patchPostDto.id,
-    });
+    let tags=undefined;
+     let post=undefined;
 
+     try {
+        tags= await this.tagsService.findMultipleTags(patchPostDto.tags);
+     } catch (error) {
+      throw new RequestTimeoutException('unable to process at the moment please try later');
+     }
+     if(!tags ||tags.length !== patchPostDto.tags.length){
+      throw new BadRequestException('pleae check your tag id and ensure they are correct');
+     }
+
+     try {
+       post = await this.postRepository.findOneBy({
+        id: patchPostDto.id,
+        }) 
+     } catch (error) {
+      throw new RequestTimeoutException('unable to process at the moment please try later');
+    }  
+
+    if(!post){
+      throw new BadRequestException('the postId not exist');
+    }
     //updating the properties.
     post.title=patchPostDto.title ?? post.title;
     post.content=patchPostDto.content ?? post.content;
@@ -66,8 +86,12 @@ export class PostService {
 
     //asing the mew tags
     post.tags=tags
-
-    return await this.postRepository.save(post)
+    try {
+      await this.postRepository.save(post)
+    } catch (error) {
+      throw new RequestTimeoutException('unable to process at the moment please try later');
+    }
+    return post;
   }
 
 

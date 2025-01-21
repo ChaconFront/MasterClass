@@ -20,7 +20,7 @@ import envirronmentValidations from './config/envirronment.validations';
       isGlobal:true,
       envFilePath:['.env'],
       load:[appConfig,databaseConfig,],//aqui se leee el appConfig y databaseConfig
-      validationSchema:[envirronmentValidations],//validacion del esquema del environment
+      validationOptions:[envirronmentValidations],//validacion del esquema del environment
     }),
     TypeOrmModule.forRootAsync({
       imports:[ConfigModule],

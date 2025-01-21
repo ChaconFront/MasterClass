@@ -28,9 +28,7 @@ constructor(
     }
     
     public async delete(id:number){
-
         await this.tagRepository.delete(id)
-
         return {
             delete: true,
             id,

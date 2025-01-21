@@ -6,12 +6,12 @@ import { AuthModule } from 'src/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { ConfigModule } from '@nestjs/config';
-import { UsersCreate=manyProvider } from './providers/users-create-many.provider';
+import { UsersCreateManyProvider} from './providers/users-create-many.provider';
 import profileConfig from './config/profile.config';
 
 @Module({
   controllers: [UsersController],
-  providers: [UserService, UsersCreate=manyProvider],
+  providers: [UserService, UsersCreateManyProvider],
   exports: [UserService],
   imports: [forwardRef(() => AuthModule), TypeOrmModule.forFeature([User]), ConfigModule.forFeature(profileConfig)], //forwardref es para las dependencias circulares.
 })

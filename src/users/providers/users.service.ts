@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ConfigType } from '@nestjs/config';
 import profileConfig from '../config/profile.config';
+import { UsersCreateManyProvider } from './users-create-many.provider';
+import { CreateManyUsersDto } from '../dto/create-many-users';
 
 @Injectable()
 export class UserService {
@@ -21,7 +23,9 @@ export class UserService {
     private readonly profileConfiguration:ConfigType<typeof profileConfig>,
 
     /* inyectando data source en el servicio de usuario */
-    private readonly  DataSource:DataSource
+    private readonly  DataSource:DataSource,
+
+    private readonly userCreateManyProvaider:UsersCreateManyProvider,
 
   ) {}
 
@@ -61,7 +65,7 @@ export class UserService {
     limit: number,
     page: number,
   ) {
-      throw new HttpException(
+      /* throw new HttpException(
                {
                 status: HttpStatus.MOVED_PERMANENTLY,
                 err:'the api endpoint does not exist',
@@ -75,7 +79,7 @@ export class UserService {
 
        }
 
-      )
+      ) */
 
     //verificando si esta autenticado.
     const isAuth = this.authService.isAuth();
@@ -105,34 +109,9 @@ try {
 
 
     //creacion de multiples usuarios
-    public async createMany(createUserDto:CreateUserDto[]){
+    public async createMany(createUserManyDto:CreateManyUsersDto){
 
-      let newUsers:User[]=[];
-      
-      //create query runner Instance
-      const queryRunner= this.DataSource.createQueryRunner();
-      //conect query runner datasource
-        await queryRunner.connect()
-        //start transactions
-        await queryRunner.startTransaction()
-        try {
-          for( let user of createUserDto){
-            let newUser= queryRunner.manager.create(User,user);
-            let result= await queryRunner.manager.save(newUser);
-            newUsers.push(result);
-          }
-          await queryRunner.commitTransaction();
-          
-        } catch (error) {
-          await queryRunner.rollbackTransaction();
-          throw new Error('Error al realizar la transacción');
-        }finally{
-          await queryRunner.release()
-        }
-
+      return this.userCreateManyProvaider.createMany(createUserManyDto)
+  
     }
-
-
-
-
-}
+  }

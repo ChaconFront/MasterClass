@@ -11,6 +11,9 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
+      transformOptions:{//nos evita la conversion de tipos en los dtos, por ejemplo @type(()=>Number)
+        enableImplicitConversion:true
+      }
     }),
   );
 
@@ -29,7 +32,7 @@ async function bootstrap() {
 
   //insatancia de documento
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api-docs', app, document);
   await app.listen(3050);
 }
 bootstrap();

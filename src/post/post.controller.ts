@@ -13,7 +13,7 @@ export class PostController {
   @Get('/:userId?')
   public async GetPost(@Param('userId') userId: string, @Query() postquery:GetPostDto ) {
     console.log(postquery)
-    return await this.postService.findAll(userId);
+    return await this.postService.findAll(userId, postquery);
   }
 
   @ApiOperation({

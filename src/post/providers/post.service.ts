@@ -7,6 +7,9 @@ import { Post } from '../post.entity';
 import { MetaOptions } from 'src/meta-options/meta-options.entity';
 import { TagsService } from 'src/tags/providers/tags.service';
 import { PatchPostDto } from '../dtos/patch-post.dto';
+import { GetPostDto } from '../dtos/get-post.dto';
+import { PaginationsProvider } from 'src/common/pagination/providers/paginations.provider.ts/paginations.provider.ts';
+import { Paginated } from 'src/common/pagination/interfaces/paginate.interface';
 
 @Injectable()
 export class PostService {
@@ -17,7 +20,9 @@ export class PostService {
     @InjectRepository(MetaOptions)
     private readonly metaOptionRepository:Repository<MetaOptions>,
 
-    private readonly tagsService:TagsService
+    private readonly tagsService:TagsService,
+
+    private readonly paginationProvaider: PaginationsProvider
   
   ) {}
 
@@ -35,21 +40,17 @@ export class PostService {
     return await this.postRepository.save(post);  
 }
 
+/* esta funcion va a retornar un generico de la entidad post en específico */
+  public async findAll(userId: string, postQuery:GetPostDto): Promise<Paginated<Post>> {
+    const post = await this.paginationProvaider.paginateQuery({
+      page: postQuery.page,
+      limit: postQuery.limit,
+    },this.postRepository)
 
-
-  public async findAll(userId: string) {
-    const post = await this.postRepository.find({ //me vas a traer los post inlcuido su relacion con metaOptions
-      relations:{
-        metaOptions:true,
-        //gracias a la propiedad de las columnas eager true nos ahorramos este codigo de abajo
-        //tags:true
-        //  author:true,
-
-      }
-    })
-
-    return post
+    return post;
   }
+
+
 
   public async update(patchPostDto:PatchPostDto){
     let tags=undefined;

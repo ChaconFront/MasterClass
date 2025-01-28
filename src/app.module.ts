@@ -11,6 +11,7 @@ import { User } from './users/user.entity';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PaginationModule } from './common/pagination/pagination.module';
 import appConfig from './config/app.config';
 import  databaseConfig from './config/database.config'
 import envirronmentValidations from './config/envirronment.validations';
@@ -39,7 +40,8 @@ import envirronmentValidations from './config/envirronment.validations';
     
     }),
     TagsModule,
-    MetaOptionsModule
+    MetaOptionsModule,
+    PaginationModule
   ],
   controllers: [AppController, PostController],
   providers: [AppService]

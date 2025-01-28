@@ -1,6 +1,6 @@
 import { IsDate, IsOptional } from "class-validator";
 import { IntersectionType } from "@nestjs/swagger";
-import { PaginationQueryDto } from "src/common/paginations-query.dto";
+import { PaginationQueryDto } from "src/common/pagination/dto/paginations-query.dto";
 
 class GetPostBaseDto{
     @IsDate()

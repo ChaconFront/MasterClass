@@ -1,4 +1,4 @@
-import { BadRequestException, forwardRef, HttpException, HttpStatus, Inject, Injectable, Param, RequestTimeoutException } from '@nestjs/common';
+import { BadRequestException, Body, forwardRef, HttpException, HttpStatus, Inject, Injectable, Param, RequestTimeoutException } from '@nestjs/common';
 import { GetUsersParamDto } from '../dto/get-users-params.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { DataSource, Repository } from 'typeorm';
@@ -9,6 +9,8 @@ import { ConfigType } from '@nestjs/config';
 import profileConfig from '../config/profile.config';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dto/create-many-users';
+import { CreateUserProvider } from './create-user.provider';
+import { FindOneUserByEmailProvider } from './find-one-user-by-email.provider';
 
 @Injectable()
 export class UserService {
@@ -27,36 +29,15 @@ export class UserService {
 
     private readonly userCreateManyProvaider:UsersCreateManyProvider,
 
+    private readonly createUserProviders:CreateUserProvider,
+
+    private readonly findOneByEmailProviders: FindOneUserByEmailProvider
+
   ) {}
 
 
-   public async createUser(@Param() createUserDto:CreateUserDto){
-    //check is user exist o email to database
-    let existingUser= undefined;
-    try {
-      existingUser=await this.userRepository.findOne({
-        where:{email: createUserDto.email}
-      })
-    } catch (error) {
-      //information which is sentitive
-      throw new RequestTimeoutException('unable to process your request at the moment please try later',{
-        description:'Error connecting to the database',
-      }); 
-    }
-    //handle exeption
-    if (existingUser) {
-      throw new BadRequestException('the user already exist, please check your email');
-    } 
-    //create new User
-      let newUser= await this.userRepository.create(createUserDto);
-      try {
-      newUser= await this.userRepository.save(newUser);
-      } catch (error) {
-        throw new RequestTimeoutException('unable to process your request at the moment please try later',{
-          description:'Error connecting to the database',
-        }); 
-      }
-  return newUser;
+   public async createUser(@Body() createUserDto:CreateUserDto){
+   return this.createUserProviders.createUser(createUserDto)
   }
 
 
@@ -65,21 +46,6 @@ export class UserService {
     limit: number,
     page: number,
   ) {
-      /* throw new HttpException(
-               {
-                status: HttpStatus.MOVED_PERMANENTLY,
-                err:'the api endpoint does not exist',
-                fileName:'user.service.ts',
-                lineNumber:88
-           },
-                HttpStatus.MOVED_PERMANENTLY,
-              {
-                cause: new Error(),
-                description:'Ocurred becaused the API endpoint was permanently moved',
-
-       }
-
-      ) */
 
     //verificando si esta autenticado.
     const isAuth = this.authService.isAuth();
@@ -111,7 +77,12 @@ try {
     //creacion de multiples usuarios
     public async createMany(createUserManyDto:CreateManyUsersDto){
 
-      return this.userCreateManyProvaider.createMany(createUserManyDto)
+      return await this.userCreateManyProvaider.createMany(createUserManyDto);
   
+    }
+
+    public async findByOneEmail(email: string){
+
+      return await this.findOneByEmailProviders.findOneByEmail(email);
     }
   }

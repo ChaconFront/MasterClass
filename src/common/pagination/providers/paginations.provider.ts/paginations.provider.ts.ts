@@ -29,11 +29,11 @@ export class PaginationsProvider {
 
            const newUrl= new URL(this.request.url, baseUrl)
 
-           console.log(newUrl)
+          // console.log(newUrl)
 
            /* calculando el numero de pagina */
            const totalItems= await repository.count();
-           const totalPages= Math.ceil(totalItems/paginationQuery.limit)
+           const totalPages= Math.ceil(totalItems/paginationQuery.limit)// redondea hacia arriba el numero entero mas cercano.
            const nextPage= paginationQuery.page=== totalPages ? paginationQuery.page : paginationQuery.page + 1;
            const previusPage= paginationQuery.page=== 1 ? paginationQuery.page : paginationQuery.page - 1;
 
@@ -56,6 +56,7 @@ export class PaginationsProvider {
             }
 
            }
+           console.log(finalResponse)
 
          return finalResponse;
 

@@ -1,6 +1,7 @@
 import { registerAs } from "@nestjs/config"; 
+import { AuthConfig } from "./auth-config.type";
 
-export default registerAs('jwt', ()=>{
+export default registerAs<AuthConfig>('jwt', ()=>{
     
     return {
         secret: process.env.JWT_SECRET,

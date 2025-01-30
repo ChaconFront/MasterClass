@@ -30,7 +30,7 @@ export class SingInProvider {
 
         let user= await this.userService.findByOneEmail(singIndto.email)
 
-        console.log(user);
+        
         //comparacion de contraseña del usuario con la que esta guardada en base datos.
         let isEquals: boolean= false;
 
@@ -56,7 +56,7 @@ export class SingInProvider {
             expiresIn: this.jwtConfiguration.accesTokenTll
 
         })
-
+            console.log({accesToken: accesToken})
             return {
                 accesToken
             }

@@ -23,12 +23,11 @@ export class CreateUserProvider {
      const existingUser = await this.userRepository.findOne({
         where:{email: createUserDto.email}
       })
-      if (existingUser) {
-        throw new BadRequestException('the user already exist, please check your email');
-      } 
+      if (existingUser)   throw new BadRequestException('the user already exist, please check your email');
+      
     } catch (error) {
       //information which is sentitive
-      throw new RequestTimeoutException('unable to process your request at the moment please try later',{
+      throw new RequestTimeoutException(error.message,{
         description:'Error connecting to the database',
       }); 
     }

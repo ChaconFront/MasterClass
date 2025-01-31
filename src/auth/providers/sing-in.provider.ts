@@ -20,9 +20,7 @@ export class SingInProvider {
 
         @Inject(jwtConfig.KEY)
         private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
-
-
-
+        
     ){}
 
     

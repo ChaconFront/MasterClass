@@ -18,16 +18,11 @@ import { AccesTokenGuard } from 'src/auth/guards/acces-token.guard';
 @Module({
   controllers: [UsersController],
   providers: [UserService, UsersCreateManyProvider, CreateUserProvider, FindOneUserByEmailProvider,
-    {//guardia global para la aplicacion.
-      provide: APP_GUARD, 
-      useClass: AccesTokenGuard
-    }],
+    ],
   exports: [UserService],
   imports: [forwardRef(() => AuthModule), 
     TypeOrmModule.forFeature([User]), 
     ConfigModule.forFeature(profileConfig),
-    ConfigModule.forFeature((jwtConfig)),
-     JwtModule.registerAsync(jwtConfig.asProvider())
   ],
 })
 export class UsersModule {}

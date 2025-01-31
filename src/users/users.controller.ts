@@ -19,6 +19,8 @@ import { UserService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateManyUsersDto } from './dto/create-many-users';
 import { AccesTokenGuard } from 'src/auth/guards/acces-token.guard';
+import { Auth } from 'src/auth/decorator/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
 
 @Controller('users')
 @ApiTags('Users')
@@ -55,6 +57,8 @@ export class UsersController {
   } */
 
   @Post()
+  // @SetMetadata('AuthType','none')
+  @Auth(AuthType.Bearer)
   public createUsers(@Body() createUserDto: CreateUserDto) {
   
     return this.userService.createUser(createUserDto);
@@ -63,7 +67,7 @@ export class UsersController {
 
   
   @Post('create-many')
-  @SetMetadata('AuthType','none')
+
   public createManyUsers(@Body() createUsersManyDto: CreateManyUsersDto) {
     return this.userService.createMany(createUsersManyDto);
   }

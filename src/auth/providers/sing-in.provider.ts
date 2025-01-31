@@ -5,6 +5,7 @@ import { HashingProviders } from './hashing.providers';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
 import jwtConfig from '../config/jwt.config';
+import {ActiveUserInterfaceData } from '../interfaces/active-user.interface';
 
 @Injectable()
 export class SingInProvider {
@@ -20,7 +21,7 @@ export class SingInProvider {
 
         @Inject(jwtConfig.KEY)
         private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
-        
+
     ){}
 
     
@@ -47,7 +48,7 @@ export class SingInProvider {
         const accesToken= await this.jwtService.signAsync({
             sub: user.id,
             email:user.email,
-        },{
+        } as ActiveUserInterfaceData ,{
             audience: this.jwtConfiguration.audience,
             issuer: this.jwtConfiguration.issuser,
             secret: this.jwtConfiguration.secret,

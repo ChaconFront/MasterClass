@@ -2,10 +2,6 @@ import { forwardRef, Inject, Injectable, RequestTimeoutException, UnauthorizedEx
 import { UserService } from 'src/users/providers/users.service';
 import { SignInDto } from '../dtos/signin.dto';
 import { HashingProviders } from './hashing.providers';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigType } from '@nestjs/config';
-import jwtConfig from '../config/jwt.config';
-import {ActiveUserInterfaceData } from '../interfaces/active-user.interface';
 import { GenerateTokensProviders } from './generate-tokens.providers';
 
 @Injectable()

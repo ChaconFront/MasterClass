@@ -1,16 +1,19 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import jwtConfig from '../config/jwt.config';
 import { User } from 'src/users/user.entity';
 import { ActiveUserInterfaceData } from '../interfaces/active-user.interface';
+import { UserService } from 'src/users/providers/users.service';
 
 @Injectable()
 export class GenerateTokensProviders {
 
 
     constructor (
-
+        
+         
+        
         private readonly jwtService:JwtService,
         
         @Inject(jwtConfig.KEY)

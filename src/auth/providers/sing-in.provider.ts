@@ -18,11 +18,6 @@ export class SingInProvider {
 
         private readonly hashinProviders:HashingProviders,
 
-        private readonly jwtService:JwtService,
-
-        @Inject(jwtConfig.KEY)
-        private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
-
         private readonly generateTokenProviders:GenerateTokensProviders,
 
     ){}
@@ -30,7 +25,7 @@ export class SingInProvider {
     
     public async singIn(singIndto:SignInDto){
 
-        let user= await this.userService.findByOneEmail(singIndto.email)
+        let user = await this.userService.findByOneEmail(singIndto.email)
 
         
         //comparacion de contraseña del usuario con la que esta guardada en base datos.
@@ -48,20 +43,9 @@ export class SingInProvider {
             throw new UnauthorizedException("Incorrect Password")
         }
 
-        const accesToken= await this.jwtService.signAsync({
-            sub: user.id,
-            email:user.email,
-        } as ActiveUserInterfaceData ,{
-            audience: this.jwtConfiguration.audience,
-            issuer: this.jwtConfiguration.issuser,
-            secret: this.jwtConfiguration.secret,
-            expiresIn: this.jwtConfiguration.accesTokenTll
+        return await this.generateTokenProviders.generateTokens(user);
 
-        })
-            console.log({accesToken: accesToken})
-            return {
-                accesToken
-            }
+
     }
 
 

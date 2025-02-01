@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
 import jwtConfig from '../config/jwt.config';
 import {ActiveUserInterfaceData } from '../interfaces/active-user.interface';
+import { GenerateTokensProviders } from './generate-tokens.providers';
 
 @Injectable()
 export class SingInProvider {
@@ -21,6 +22,8 @@ export class SingInProvider {
 
         @Inject(jwtConfig.KEY)
         private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+
+        private readonly generateTokenProviders:GenerateTokensProviders,
 
     ){}
 

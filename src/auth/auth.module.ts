@@ -8,11 +8,12 @@ import { SingInProvider } from './providers/sing-in.provider';
 import { ConfigModule } from '@nestjs/config';
 import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
+import { GenerateTokensProviders } from './providers/generate-tokens.providers';
 @Module({
   providers: [AuthService,{
     provide: HashingProviders,//al ser una clase abstracta que la implementa bcryptProviders la importacion se hace de esta manera
     useClass: BcryptProviders,
-  }, SingInProvider],
+  }, SingInProvider, GenerateTokensProviders],
   controllers: [AuthController],
   imports: [forwardRef(() => UsersModule), ConfigModule.forFeature((jwtConfig)), JwtModule.registerAsync(jwtConfig.asProvider())],
   exports: [AuthService, HashingProviders],

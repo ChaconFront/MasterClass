@@ -10,6 +10,8 @@ import { PatchPostDto } from '../dtos/patch-post.dto';
 import { GetPostDto } from '../dtos/get-post.dto';
 import { PaginationsProvider } from 'src/common/pagination/providers/paginations.provider.ts/paginations.provider.ts';
 import { Paginated } from 'src/common/pagination/interfaces/paginate.interface';
+import { ActiveUserInterfaceData } from 'src/auth/interfaces/active-user.interface';
+import { CreatePostProviders } from './create-post.providers';
 
 @Injectable()
 export class PostService {
@@ -22,23 +24,18 @@ export class PostService {
 
     private readonly tagsService:TagsService,
 
-    private readonly paginationProvaider: PaginationsProvider
+    private readonly paginationProvaider: PaginationsProvider,
+
+    private readonly createPostProvider:CreatePostProviders,
   
   ) {}
 
-  public async create(@Body() createPostDto:CreatePostDto){
-  //find author from database
-    const authorr= await this.userService.findOneById(createPostDto.authorId)
-  //find tags from database
-    const tags= await this.tagsService.findMultipleTags(createPostDto.tags)
-    const post= this.postRepository.create({
-      ...createPostDto,
-      tags:tags, 
-      //author:authorr
-    });
-   
-    return await this.postRepository.save(post);  
+  public async create(@Body() createPostDto:CreatePostDto, user:ActiveUserInterfaceData){
+  
+    return await this.createPostProvider.create(createPostDto,user);  
 }
+
+
 
 /* esta funcion va a retornar un generico de la entidad post en específico */
   public async findAll(userId: string, postQuery:GetPostDto): Promise<Paginated<Post>> {

@@ -64,13 +64,12 @@ try {
   if(!user){
     throw new BadRequestException(`the user ${id} does not exist`);
   }
+  return user
 } catch (error) {
   throw new RequestTimeoutException('unable to process your request at the moment please try later',{
     description:'Error connecting to the database',
   }); 
 } 
-//user existing
-    return 
   }
 
 

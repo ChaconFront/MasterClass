@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { PostService } from './providers/post.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { PatchPostDto } from './dtos/patch-post.dto';
 import { GetPostDto } from './dtos/get-post.dto';
-import { REQUEST_USER_KEY } from 'src/auth/constants/auth.constants';
+import { ActiveUser } from 'src/auth/decorator/ative-user.decorator';
+import { ActiveUserInterfaceData } from 'src/auth/interfaces/active-user.interface';
 
 @Controller('post')
 @ApiTags('Posts')
@@ -26,10 +27,10 @@ export class PostController {
   })
 
   @Post()
-  public createPost( @Req() request/*@Body() createPostDto: CreatePostDto*/) {
-  
-    console.log(request[REQUEST_USER_KEY])
-  //  return this.postService.create();
+  public createPost(@Body() createPostDto: CreatePostDto, @ActiveUser() user: ActiveUserInterfaceData) {
+
+    console.log(user)
+    return this.postService.create(createPostDto,user);
   }
 
   @Patch()

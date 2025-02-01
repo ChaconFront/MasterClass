@@ -64,7 +64,7 @@ export class Post{
         type:'timestamp',//es como el tiempo que se almaceno en base de datos
         nullable:true
     })
-    publishOn: Date;
+    publishOn?: Date;
 
     //relacion bidireccional
     @OneToOne(()=>MetaOptions,(metaOptions)=>(metaOptions.post),{

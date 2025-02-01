@@ -60,7 +60,7 @@ export class CreatePostDto {
 
   @IsISO8601()
   @IsOptional()
-  publishOn: Date;
+  publishOn?: Date;
 
   @IsOptional()
   @IsArray()
@@ -87,13 +87,4 @@ export class CreatePostDto {
   @Type(() => CreateMetaOptionsDto)
   metaOptions: CreateMetaOptionsDto | null;
 
-
-  @ApiProperty({
-    type:'integer',
-    required:true,
-    example:1
-  })
-  @IsNotEmpty()
-  @IsInt()
-  authorId:number;
 }

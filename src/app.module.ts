@@ -33,8 +33,8 @@ import { AuthenticationGuard } from './auth/guards/authentication/authentication
       inject:[ConfigService],
       useFactory: (configService:ConfigService) => ({
         type: 'postgres',
-        autoLoadEntities:configService.get<boolean>('database.autoLoadEntities'),//no usar en produccion.
-        synchronize: configService.get<boolean>('database.synchronize'),
+        autoLoadEntities:true,//no usar en produccion.
+        synchronize:true,
         port:configService.get<number>('database.port'),
         username:configService.get<string>('database.user'),
         password:configService.get<string>('database.password'),

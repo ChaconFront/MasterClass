@@ -48,7 +48,7 @@ export class UserService {
   ) {
 
     //verificando si esta autenticado.
-    const isAuth = this.authService.isAuth();
+    //const isAuth = this.authService.isAuth();
     //test the new config
     console.log(this.profileConfiguration.apikey)
 

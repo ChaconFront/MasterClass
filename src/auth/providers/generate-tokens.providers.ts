@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import jwtConfig from '../config/jwt.config';
 import { User } from 'src/users/user.entity';
 import { ActiveUserInterfaceData } from '../interfaces/active-user.interface';
-import { UserService } from 'src/users/providers/users.service';
+
 
 @Injectable()
 export class GenerateTokensProviders {
@@ -33,8 +33,8 @@ export class GenerateTokensProviders {
                     expiresIn: expireIn
         
                 })
-
-    }
+                
+            }
 
     public async generateTokens(user:User){
 

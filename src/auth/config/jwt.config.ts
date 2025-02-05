@@ -9,5 +9,8 @@ export default registerAs<AuthConfig>('jwt', ()=>{
         issuser:process.env.JWT_TOKEN_ISSUSER,
         accesTokenTll: parseInt(process.env.JWT_ACCESS_TOKEN_TTL ?? '3600',10),
         refreshToken: parseInt(process.env.JWT_REFRESH_TOKEN_TTL ?? '86400',10),
+        googlrClientId: process.env.GOOGLE_CLIENT_ID,
+        googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        
     }
 })

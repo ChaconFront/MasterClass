@@ -20,7 +20,7 @@ export class RefreshTokensProviders {
     ){}
 
     public async refreshToken( refreshTokenDto:RefreshTokenDto){
-        //verify the refreshToken,
+        //verify the refreshToken, pik es un utilitario de typescript que crea un nuevo tipo de dato con las propiedades que se le pasan.
        try {
              const {sub}=  await this.jwtService.verifyAsync<Pick <ActiveUserInterfaceData,'sub'>>(refreshTokenDto.refreshToken,{
 

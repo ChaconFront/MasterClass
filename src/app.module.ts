@@ -20,6 +20,7 @@ import jwtConfig from './auth/config/jwt.config';
 import { APP_GUARD } from '@nestjs/core';
 import { AccesTokenGuard } from './auth/guards/acces-token.guard';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
+
 @Module({
   imports: [UsersModule, PostModule, AuthModule,
     ConfigModule.forRoot({
@@ -57,6 +58,7 @@ import { AuthenticationGuard } from './auth/guards/authentication/authentication
           useClass: AuthenticationGuard,       
   },
   AccesTokenGuard,
+
 ],
   
 })

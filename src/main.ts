@@ -17,6 +17,9 @@ async function bootstrap() {
     }),
   );
 
+  //enableCorrs
+  app.enableCors();
+
   //swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Master Classs- blog app ApI')

@@ -11,11 +11,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { GenerateTokensProviders } from './providers/generate-tokens.providers';
 import { RefreshTokensProviders } from './providers/refresh-tokens.providers';
 import { GoogleAuthenticationController } from './social/google-authentication.controller';
+import { GoogleAuthtenticatonService } from './social/providers/google-authtenticaton.service';
+
 @Module({
   providers: [AuthService,{
     provide: HashingProviders,//al ser una clase abstracta que la implementa bcryptProviders la importacion se hace de esta manera
     useClass: BcryptProviders,
-  }, SingInProvider, GenerateTokensProviders, RefreshTokensProviders],
+  }, SingInProvider, GenerateTokensProviders, RefreshTokensProviders, GoogleAuthtenticatonService],
   controllers: [AuthController, GoogleAuthenticationController],
   imports: [forwardRef(() => UsersModule), ConfigModule.forFeature((jwtConfig)), JwtModule.registerAsync(jwtConfig.asProvider())],
   exports: [AuthService, HashingProviders],

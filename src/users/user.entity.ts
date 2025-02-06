@@ -32,10 +32,15 @@ email:string;
 @Column({
     type:'varchar',
     length:'96',
-    nullable:false
+    nullable:true
 })
-password:string;
+password?:string;
 
+@Column({
+    type:'varchar',
+    nullable:true
+})
+googleID?: string
 //relacion bidireccional
 @OneToMany(()=>Post,(post) => post.author)
 post:Post[];

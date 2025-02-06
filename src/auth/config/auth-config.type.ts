@@ -4,4 +4,6 @@ export type AuthConfig={
     issuser:string;
     accesTokenTll:number;
     refreshToken:number;
+    googlrClientId:string;
+    googleClientSecret:string;
 }

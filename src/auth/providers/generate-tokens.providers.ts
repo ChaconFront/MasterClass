@@ -39,11 +39,11 @@ export class GenerateTokensProviders {
     public async generateTokens(user:User){
 
         const [accessToken,refreshToken]=await Promise.all([  
-            //Generate the accessToken.
+            //Generate the accessToken. solo me viene el id y 
             this.signToken<Partial<ActiveUserInterfaceData>>(user.id, this.jwtConfiguration.accesTokenTll,{
                 email: user.email
             }),
-            //Generate the refreshToken.
+            //Generate the refreshToken. solo me viene el id del usuario en el refresh token 
             this.signToken(user.id, this.jwtConfiguration.refreshToken), 
        ])
       return {

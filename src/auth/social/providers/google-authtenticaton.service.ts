@@ -44,7 +44,7 @@ export class GoogleAuthtenticatonService implements OnModuleInit {
         })
 
         //extract the payload from the google jwt
-        const {email,sub:googleId, given_name:firstName, family_name: lastName }= loginTicket.getPayload();
+        const {email,sub:googleId, given_name:firstName, family_name: lastName } = loginTicket.getPayload();
 
         //find the user from de database usin the googleId
         const user = await this.userService.findOneByGoogleId(googleId);

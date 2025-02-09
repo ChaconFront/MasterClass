@@ -10,6 +10,8 @@ import {
   Patch,
   UseGuards,
   SetMetadata,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUsersParamDto } from './dto/get-users-params.dto';
@@ -59,6 +61,7 @@ export class UsersController {
   @Post()
   // @SetMetadata('AuthType','none')
   @Auth(AuthType.Bearer)
+  @UseInterceptors(ClassSerializerInterceptor)
   public createUsers(@Body() createUserDto: CreateUserDto) {
   
     return this.userService.createUser(createUserDto);
@@ -79,7 +82,7 @@ export class UsersController {
     return 'you sent a patch request to users endpoint';
   }
 
-  
+
 
 
 }

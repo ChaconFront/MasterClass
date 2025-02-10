@@ -42,6 +42,7 @@ password?:string;
     type:'varchar',
     nullable:true
 })
+@Exclude()
 googleID?: string
 //relacion bidireccional
 @OneToMany(()=>Post,(post) => post.author)

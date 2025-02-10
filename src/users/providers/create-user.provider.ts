@@ -38,7 +38,6 @@ export class CreateUserProvider {
             password: await this.hashingProviders.hashPassword(createUserDto.password)
           });
           const savedUser = await this.userRepository.save(newUser);
-          console.log('User saved:', savedUser);
 
           return savedUser;
 

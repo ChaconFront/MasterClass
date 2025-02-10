@@ -24,9 +24,6 @@ export class UserService {
     @InjectRepository(User)
     private userRepository:Repository<User>,
 
-    @Inject(profileConfig.KEY)
-    private readonly profileConfiguration:ConfigType<typeof profileConfig>,
-
     /* inyectando data source en el servicio de usuario */
     private readonly  DataSource:DataSource,
 
@@ -57,7 +54,6 @@ export class UserService {
     //verificando si esta autenticado.
     //const isAuth = this.authService.isAuth();
     //test the new config
-    console.log(this.profileConfiguration.apikey)
 
     return await this.userRepository.find()
   }
